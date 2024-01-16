@@ -50,6 +50,13 @@
 
 {% endfor %}
     },
+{% if docker_configure_proxy|bool %}
+    "proxies": {
+      "http-proxy": "{{ docker_proxy_http }}",
+      "https-proxy": "{{ docker_proxy_https }}",
+      "no-proxy": "{{ docker_proxy_no_proxy|join(',') }}"
+    },
+{% endif %}
     "registry-mirrors": [{% for mirror in docker_registry_mirrors %}"{{ mirror }}"{% if not loop.last %}, {% endif %}{% endfor %}],
     "storage-driver": "{{ docker_storage_driver }}",
     "default-runtime": "{{ docker_default_runtime }}"
